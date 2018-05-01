@@ -1,0 +1,21 @@
+tau_not = 0.03; %0.01sec
+p=250;
+q=501;
+a=1;
+b=2;
+final1=zeros(p,1);   %number of readings
+
+for m=1:1:p
+    sum=0;
+    for k=1:1:q-2*m
+        sum=sum+((theta(k+2*m)-2*theta(k+m)+theta(k))*(theta(k+2*m)-2*theta(k+m)+theta(k)))/(2*m*m*(tau_not)*(tau_not)*(q-2*m));
+        disp(a)
+    end
+    disp(b)
+    final1(m,1)=sum;
+end
+final1=sqrt(final1);
+plot(log10(0.03:0.03:p*0.03 ),log10(final1)); 
+xlabel('log10(sampling time) tau_0=0.03 sec')
+ylabel('log10(allan deviation)')
+title('log-log plot of allan dev v/s sampling time')
