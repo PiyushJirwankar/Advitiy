@@ -5,10 +5,10 @@ df=pd.read_csv('10min_gyro_data.csv')
 output_x=df['output_x']
 output_y=df['output_y']
 output_z=df['output_z']
-time=df['time']
+time    =df['time']
 tau_not = 0.034  #sec
-#N=len(time)     # N=21430
-N = 101  
+#N= len('time')   # N=21430
+N = 501           # Number of points taken into consideration
 n = int(N/2)
 
 def theta(x,y):           #x is till what number we want the sum
@@ -58,3 +58,5 @@ plt.plot(np.log10(tau_values), np.log10(allan_dev_z) ,color='g', label='Z-output
 plt.xlabel('Tau values')
 plt.ylabel('Allan deviation')
 plt.legend(['X-output', 'Y-output', 'Z-output'])
+plt.grid()
+plt.savefig('allanvar_N=501')
