@@ -7,9 +7,9 @@ import random
 'The data has been logged from ITG3200 for 10 minutes. The mean in x, y, z direction (ZRO) is taken to be the average of the corresponding data values'
 
 df=pd.read_csv('10min_gyro_data.csv')
-output_x = df['output_x']
-output_y = df['output_y']
-output_z = df['output_z']
+actual_x = df['output_x']
+actual_y = df['output_y']
+actual_z = df['output_z']
 time     = df['time']
 length   = len(df['time'])
 # All the valuse that are being initialized are according to the datasheet of ITG3200
@@ -32,25 +32,25 @@ random_error_z = random.gauss(ZRO_z , var)
 #cross_axis_sensitivity = 2% max
 
 'output = actual_value + bias + bias_change_rate(ARW) + random_errors'
-'actual = output - bias - ARW - random_error'
 'ZRO can vary between -40 to 40 deg/sec but I am assuming it to be 0 here'
 
-actual_x=np.zeros(length)    #represents the actual rotational velocity about x direction
-actual_y=np.zeros(length)    #represents the actual rotational velocity about y direction
-actual_z=np.zeros(length)    #represents the actual rotational velocity about z direction
+output_x=np.zeros(length)    #represents the actual rotational velocity about x direction
+output_y=np.zeros(length)    #represents the actual rotational velocity about y direction
+output_z=np.zeros(length)    #represents the actual rotational velocity about z direction
 
 for i in range(length):
-    actual_x[i] = (output_x[i] - random_error_x - ZRO_x)            #bias
-    actual_y[i] = (output_y[i] - random_error_y - ZRO_y)            #bias
-    actual_z[i] = (output_z[i] - random_error_z - ZRO_z)            #bias
+    output_x[i] = (actual_x[i] + random_error_x + ZRO_x)            #bias
+    output_y[i] = (actual_y[i] + random_error_y + ZRO_y)            #bias
+    output_z[i] = (actual_z[i] + random_error_z + ZRO_z)            #bias
 
 'Above, bias is the rate random walk(the time varying bias of the gyro)' 
 
-print(actual_x)
-#print(actual_y)
-#print(actual_z)
+print(output_x)
+#print(output_y)
+#print(output_z)
 
 '''
-there is a possibility that the bias may change over time- which is known as bias instability. This has not been accounted for here.
+there is a possibility that the bias may change over time- which is known as bias instability.
+This has not been accounted for here.
 As of now, it is not clear if bias instability will substantially affect our modelling or not
 '''
