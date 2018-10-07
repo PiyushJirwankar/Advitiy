@@ -1,0 +1,31 @@
+import numpy as np
+def RK4(f, y0, t0, tf, h):
+    N=int((tf-t0)/h)
+    m=len(y0)
+    k1=np.array(np.zeros(m))
+    k2=np.array(np.zeros(m))
+    k3=np.array(np.zeros(m))
+    k4=np.array(np.zeros(m))
+    time=np.array(np.zeros(N))
+    time[0]=t0
+    y=np.array(np.zeros((m,N)))
+    for i in range(N):
+        for j in range(0):
+            y[i,0]=y0[i]
+    for j in range(N-1):   #column
+        #time[0]=t0
+        #time[j+1]=time[j]+h
+ #       if j==N-1:
+ #           time[j+1]=time[j]
+        for i in range(m):   #row
+            k1[i]=float(h*f(time[j],y[:,j])[i])
+        for i in range(m):
+            k2[i]=float(h*f(time[j]+h/2,y[:,j]+k1/2)[i])
+        for i in range(m):
+            k3[i]=float(h*f(time[j]+h/2,y[:,j]+k2/2)[i])
+        for i in range(m):
+            k4[i]=float(h*f(time[j]+h,y[:,j]+k3)[i])
+        for i in range(m):
+            y[i,j+1]=y[i,j]+(k1[i]+2*(k2[i]+k3[i])+k4[i])/6
+        time[j+1]=time[j]+h
+    return y, time
