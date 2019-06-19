@@ -40,7 +40,7 @@ for i in range(0, num_steps):
         print("step ", i+1, " cycle ", j)
         for k in range(j*num_instants_per_cycle, (j+1)*num_instants_per_cycle):
             intTimeArr1 = np.linspace(time[k]%2, time[k+1]%2, 3, endpoint=True)      # setting the time array for the integration step
-            intTimeArr = np.linspace(time[k], time[k+1], 3, endpoint=True)      # setting the time array for the integration step
+            intTimeArr = np.linspace(time[k], time[k+1], 3, endpoint=True)      
             currentArray = aac.getCurrentList(duty, intTimeArr1, 3, edgeCurrentArray)    # getting the current for the integration cycles
             h = time[k + 1] - time[k]
             k1 = w_dot_BI(currentArray[0], getMag_b(intTimeArr[0])) * h
